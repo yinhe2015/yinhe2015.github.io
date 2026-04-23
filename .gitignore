@@ -14,7 +14,5 @@ Thumbs.db
 *.tmp
 .cache/
 
-# 如果你以后不小心装了node，也自动忽略
-node_modules/
-package-lock.json
-yarn.lock
+# 本地的文档
+uploadcmd.txt
