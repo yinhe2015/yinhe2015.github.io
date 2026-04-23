@@ -1,0 +1,9 @@
+/* title_style.css 文件内容 - 所有页面共用的样式 */
+h2 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+a {
+    display: block;
+    margin: 3px 0;
+}
