@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单词字母表排序工具</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: monospace;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .options {
+            margin: 20px 0;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .sort-btn {
+            background: #3498db;
+            color: white;
+            flex: 1;
+        }
+        
+        .sort-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .clear-btn:hover {
+            background: #c0392b;
+        }
+        
+        .result-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .word-list {
+            font-family: monospace;
+            font-size: 16px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e0e6ed;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .word-count {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .instructions {
+            background: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        
+        .instructions ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔤 单词字母表排序工具</h1>
+        <div class="subtitle">输入一串单词，按字母表顺序排序显示</div>
+        
+        <div class="input-section">
+            <label for="wordInput">输入单词（每行一个单词，或使用空格/逗号分隔）：</label>
+            <textarea id="wordInput" placeholder="例如：
+apple
+banana
+cherry
+date
+elderberry
+
+或者：apple banana cherry date elderberry
+或者：apple, banana, cherry, date, elderberry"></textarea>
+            
+            <div class="options">
+                <div class="option-group">
+                    <input type="radio" id="sortAsc" name="sortOrder" value="asc" checked>
+                    <label for="sortAsc">升序 (A → Z)</label>
+                </div>
+                <div class="option-group">
+                    <input type="radio" id="sortDesc" name="sortOrder" value="desc">
+                    <label for="sortDesc">降序 (Z → A)</label>
+                </div>
+                <div class="option-group">
+                    <input type="checkbox" id="caseSensitive" checked>
+                    <label for="caseSensitive">区分大小写</label>
+                </div>
+                <div class="option-group">
+                    <input type="checkbox" id="removeDuplicates">
+                    <label for="removeDuplicates">去除重复单词</label>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button class="sort-btn" onclick="sortWords()">📊 排序单词</button>
+                <button class="clear-btn" onclick="clearInput()">🗑️ 清空输入</button>
+            </div>
+        </div>
+        
+        <div class="result-section" id="resultSection" style="display: none;">
+            <div class="result-title">
+                <span>排序结果：</span>
+                <button onclick="copyResults()" style="background: #27ae60; padding: 8px 16px; font-size: 14px;">📋 复制结果</button>
+            </div>
+            <div class="word-list" id="wordList"></div>
+            <div class="word-count" id="wordCount"></div>
+        </div>
+        
+        <div class="instructions">
+            <h3>💡 使用说明：</h3>
+            <ul>
+                <li>支持多种输入格式：每行一个单词、空格分隔、逗号分隔</li>
+                <li>自动清理空白字符和标点符号</li>
+                <li>可选择升序或降序排序</li>
+                <li>可选择是否区分大小写（默认区分）</li>
+                <li>可选择是否去除重复单词</li>
+                <li>结果可以一键复制到剪贴板</li>
+            </ul>
+        </div>
+        
+        <a href="/" class="back-link">← 返回首页</a>
+    </div>
+    
+    <script>
+        function parseWords(input) {
+            // 多种分隔符支持：换行、空格、逗号、分号
+            let words = input.split(/[\n\s,;]+/);
+            
+            // 清理每个单词：去除首尾空白和标点
+            words = words.map(word => {
+                return word.replace(/^[.,!?;:\s]+|[.,!?;:\s]+$/g, '');
+            });
+            
+            // 过滤空字符串
+            words = words.filter(word => word.length > 0);
+            
+            return words;
+        }
+        
+        function sortWords() {
+            const input = document.getElementById('wordInput').value;
+            const sortOrder = document.querySelector('input[name="sortOrder"]:checked').value;
+            const caseSensitive = document.getElementById('caseSensitive').checked;
+            const removeDuplicates = document.getElementById('removeDuplicates').checked;
+            
+            let words = parseWords(input);
+            
+            if (words.length === 0) {
+                alert('请输入至少一个单词！');
+                return;
+            }
+            
+            // 去重（如果需要）
+            if (removeDuplicates) {
+                if (caseSensitive) {
+                    words = [...new Set(words)];
+                } else {
+                    const seen = new Set();
+                    words = words.filter(word => {
+                        const lower = word.toLowerCase();
+                        if (seen.has(lower)) {
+                            return false;
+                        }
+                        seen.add(lower);
+                        return true;
+                    });
+                }
+            }
+            
+            // 排序
+            words.sort((a, b) => {
+                let compareA = caseSensitive ? a : a.toLowerCase();
+                let compareB = caseSensitive ? b : b.toLowerCase();
+                
+                if (compareA < compareB) return sortOrder === 'asc' ? -1 : 1;
+                if (compareA > compareB) return sortOrder === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            // 显示结果
+            const wordList = document.getElementById('wordList');
+            const wordCount = document.getElementById('wordCount');
+            const resultSection = document.getElementById('resultSection');
+            
+            wordList.textContent = words.join('\n');
+            wordCount.textContent = `共 ${words.length} 个单词`;
+            resultSection.style.display = 'block';
+            
+            // 滚动到结果区域
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function clearInput() {
+            document.getElementById('wordInput').value = '';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('wordInput').focus();
+        }
+        
+        function copyResults() {
+            const wordList = document.getElementById('wordList').textContent;
+            
+            if (!wordList.trim()) {
+                alert('没有可复制的内容！');
+                return;
+            }
+            
+            navigator.clipboard.writeText(wordList).then(() => {
+                alert('排序结果已复制到剪贴板！');
+            }).catch(err => {
+                console.error('复制失败:', err);
+                alert('复制失败，请手动选择文本复制。');
+            });
+        }
+        
+        // 示例数据
+        document.addEventListener('DOMContentLoaded', function() {
+            const examples = [
+                "apple", "banana", "cherry", "date", "elderberry",
+                "fig", "grape", "honeydew", "kiwi", "lemon"
+            ];
+            
+            document.getElementById('wordInput').value = examples.join('\n');
+        });
+    </script>
+</body>
+</html>

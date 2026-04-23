@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算24点</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        input {
+            width: 100px;
+            margin: 5px;
+            padding: 5px;
+        }
+
+        button {
+            margin: 10px 0;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            min-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <p>注意: 这是AI将我编写的</p><a href="算24.py">算24.py</a><p>改成网页的</p>
+
+    <input type="text" id="num1" required placeholder="数字1">
+    <br>
+    <input type="text" id="num2" required placeholder="数字2">
+    <br>
+    <input type="text" id="num3" required placeholder="数字3">
+    <br>
+    <input type="text" id="num4" required placeholder="数字4">
+    <br>
+    <button onclick="calculate24()">计算</button>
+    <div id="result"></div>
+
+    <script>
+        result = document.getElementById('result');
+
+        function 计算(数值列表, 总数 = 24) {
+            let 计算步骤 = [];
+            let 最终表达式 = '';
+
+            function _计算24(数值, 表达式) {
+                if (数值.length === 1) {
+                    // 考虑浮点数精度问题，使用近似判断
+                    if (Math.abs(数值[0] - 总数) < 0.0001) {
+                        最终表达式 = 表达式[0];
+                        return true;
+                    }
+                    return false;
+                }
+
+                // 尝试所有可能的两个数组合
+                for (let i = 0; i < 数值.length; i++) {
+                    for (let j = 0; j < 数值.length; j++) {
+                        if (i === j) continue;
+
+                        const 数1 = 数值[i];
+                        const 数2 = 数值[j];
+                        const 表达式1 = 表达式[i];
+                        const 表达式2 = 表达式[j];
+
+                        // 创建剩余数值列表
+                        const 剩余数值 = [];
+                        const 剩余表达式 = [];
+                        for (let k = 0; k < 数值.length; k++) {
+                            if (k !== i && k !== j) {
+                                剩余数值.push(数值[k]);
+                                剩余表达式.push(表达式[k]);
+                            }
+                        }
+
+                        // 尝试所有运算符
+                        // 加法
+                        if (_计算24(
+                            [...剩余数值, 数1 + 数2],
+                            [...剩余表达式, `(${表达式1} + ${表达式2})`]
+                        )) return true;
+
+                        // 减法
+                        if (_计算24(
+                            [...剩余数值, 数1 - 数2],
+                            [...剩余表达式, `(${表达式1} - ${表达式2})`]
+                        )) return true;
+
+                        // 乘法
+                        if (_计算24(
+                            [...剩余数值, 数1 * 数2],
+                            [...剩余表达式, `(${表达式1} × ${表达式2})`]
+                        )) return true;
+
+                        // 除法（避免除以0）
+                        if (数2 !== 0 && _计算24(
+                            [...剩余数值, 数1 / 数2],
+                            [...剩余表达式, `(${表达式1} ÷ ${表达式2})`]
+                        )) return true;
+                    }
+                }
+                return false;
+            }
+
+            // 初始表达式是数字本身
+            const 初始表达式 = 数值列表.map(num => num.toString());
+            const 找到 = _计算24(数值列表, 初始表达式);
+
+            return 找到 ? 最终表达式 : null;
+        }
+
+        function getnum(num) {
+            const input = num.trim().toUpperCase();
+
+            // 尝试AJQK转换为数字
+            if (input === 'A') return 1;
+            if (input === 'J') return 11;
+            if (input === 'Q') return 12;
+            if (input === 'K') return 13;
+
+            const out = parseFloat(input);
+            if (isNaN(out) || !Number.isInteger(out)) { // 确保转换成功且是整数
+                return null;
+            }
+            return out;
+        }
+
+        function calculate24() {
+            const target = 24;
+
+            const input1 = document.getElementById('num1').value;
+            const input2 = document.getElementById('num2').value;
+            const input3 = document.getElementById('num3').value;
+            const input4 = document.getElementById('num4').value;
+
+            // 检查输入是否为空
+            if ([input1, input2, input3, input4].some(num => num === '')) {
+                alert('请输入数字');
+                document.getElementById('result').innerText = '输入为空';
+                return;
+            }
+
+            const num1 = getnum(input1);
+            const num2 = getnum(input2);
+            const num3 = getnum(input3);
+            const num4 = getnum(input4);
+
+            // 检查输入是否有效
+            if ([num1, num2, num3, num4].some(num => num === null)) {
+                // 验证输入是否为有效的数字
+                alert('请输入有效的数字');
+                result.innerText = '输入无效';
+                return;
+            }
+
+            const result = 计算([num1, num2, num3, num4], target);
+
+            if (result) {
+                result.innerText = `计算结果: ${result} = ${target}`;
+            } else {
+                result.innerText = '无解';
+            }
+        }
+    </script>
+</body>
+
+</html>
