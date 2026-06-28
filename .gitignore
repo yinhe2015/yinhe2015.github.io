@@ -13,6 +13,3 @@ Thumbs.db
 *.log
 *.tmp
 .cache/
-
-# 本地的文档
-uploadcmd.txt
