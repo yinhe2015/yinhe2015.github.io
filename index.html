@@ -3,17 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yinhe 的个人网站</title>
-    <link rel="stylesheet" href="/list_style.css">
+    <meta name="theme-color" content="#0b100e">
+    <meta name="description" content="Yinhe 的个人网站，收集实用工具、有趣项目与常用链接。">
+    <title>个人网站 · Yinhe</title>
+    <link rel="stylesheet" href="./list_style.css">
 </head>
 <body>
-    <h1>Yinhe 的个人网站</h1>
-
-    <a href="tools/">工具</a>
-    <a href="projects/">项目</a>
-    <a href="links.html">链接</a>
-    <a href="images/">图片</a>
-
-    <a href="old/">已移除的功能怀旧</a>
+<div class="shell">
+    <header class="topbar">
+        <a class="brand" href="./" aria-label="Yinhe 首页">yinhe<span> / personal</span></a>
+        <nav class="topnav" aria-label="主导航"><a href="./tools/">工具</a><a href="./projects/">项目</a><a href="./links.html">链接</a></nav>
+    </header>
+    <main>
+        <p class="eyebrow">hello, world</p>
+        <h1>你好，我是 Yinhe。<span class="cursor" aria-hidden="true"></span></h1>
+        <p class="intro">这里存放我的小工具、实验项目，以及一些值得收藏的链接。</p>
+        <p class="section-label">探索 / EXPLORE</p>
+        <div class="grid">
+            <a class="card" href="tools/index.html"><span class="card-code">~/tools</span><h2>实用工具</h2><p>把重复的小事，交给工具处理。</p></a>
+            <a class="card" href="projects/index.html"><span class="card-code">~/projects</span><h2>实验项目</h2><p>一些想法，一些动手实现的小实验。</p></a>
+            <a class="card" href="links.html"><span class="card-code">~/links</span><h2>链接收藏</h2><p>常用的网站与有意思的互联网角落。</p></a>
+            <a class="card" href="images/index.html"><span class="card-code">~/images</span><h2>图片空间</h2><p>留一个位置，给未来的影像记录。</p></a>
+        </div>
+        <div class="archive"><span>// 旧时光也值得保留</span><a href="old/">已移除的功能怀旧</a></div>
+    </main>
+    <footer><span class="signature">YINHE / 个人空间</span><span>保持好奇，持续探索。</span></footer>
+</div>
 </body>
 </html>
